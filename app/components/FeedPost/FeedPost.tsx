@@ -1,10 +1,16 @@
 import { Text, View, Image } from "react-native";
 import { AntDesign, Entypo, Feather, Ionicons } from "@expo/vector-icons";
 import colors from "@/theme/colors";
+import { Comment } from "../Comment";
 
 import styles from "./styles";
+import { IPost } from "@/app/types/model";
 
-const FeedPost = ({ post }) => {
+interface IFeedPost {
+  post: IPost;
+}
+
+const FeedPost = ({ post }: IFeedPost) => {
   console.log("props", post);
   return (
     <View style={styles.post}>
@@ -23,6 +29,7 @@ const FeedPost = ({ post }) => {
           style={styles.threeDots}
         />
       </View>
+
       {/* Content  */}
       <Image
         style={styles.image}
@@ -74,18 +81,9 @@ const FeedPost = ({ post }) => {
         <Text style={styles.postText}>
           View all {post.nofComments} comments
         </Text>
-        <View style={styles.comment}>
-          <Text style={styles.commentText}>
-            <Text style={styles.bold}>misatokatsuragi</Text> Lorem ipsum dolor,
-            sit amet consectetur adipisicing elit.
-          </Text>
-          <AntDesign
-            name="hearto"
-            size={14}
-            style={styles.icon}
-            color={colors.black}
-          />
-        </View>
+        {post.comments.map((comment) => (
+          <Comment key={comment.id} comment={comment} />
+        ))}
 
         {/* Posted date */}
         <Text style={styles.postText}>{post.createdAt}</Text>
